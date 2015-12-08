@@ -1,6 +1,6 @@
 # Lower the probability threshold for the papers without getting keywords at the first step
 # Note that errors are likely to happen because the wiki miner server is unstable
-# If an error happens, just try to run the data in separate batches 
+# If an error happens, just try to reduce the number of requests for each run 
 
 import json
 import requests
