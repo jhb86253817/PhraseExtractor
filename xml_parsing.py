@@ -1,7 +1,6 @@
 # Extract contents from XML file to json file
 
 import xml.etree.ElementTree as ET 
-import MySQLdb as mdb
 import json
 
 def save_to_json(root):
