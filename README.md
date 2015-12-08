@@ -17,3 +17,10 @@ Output of the extractor:
 3. run **combine_topics.py**, which takes as input the folder **topics**, and outputs **arxiv_cs_keywords.json**
 4. run **check_empty.py**, which takes as input **arxiv_cs_keywords.json**, and outputs **arxiv_cs_keywords2.json**
 5. run **combine_t_a_k.py**, which takes as input **arxiv_cs.json** and **arxiv_cs_keywords2.json**, and outputs **arxiv_cs_t_a_k.json**
+
+### To do list:
+- Clarify the server we use, and give its web page.
+- Clarify that the papers should be processed in chunks because of the instability of the sever.
+- Clarify the extraction of each paper is independent of others.
+- Clarify more details how we get the final key phrases. 
+- Add Joel as collaborator.
