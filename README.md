@@ -17,10 +17,12 @@ The server we use is the wikify service under [wikipedia miner](http://wikipedia
 
 ### General pipline:
 1. use *`xml_parsing.py`* to parse XML file, and save the contents in a json file. If the json file already exists, this can be skipped.
-1. use *`wiki_miner.py`* to extract phrases with a specific probability threshold under the 'common' mode.
-2. use *`wiki_miner.py`* to extract phrases with a lower probability threshold under the 'fill' mode, for those documents with empty phrase list from the first step.
+1. use *`wiki_miner.py`* to extract phrases with a specific probability threshold under the `common` mode.
+2. use *`wiki_miner.py`* to extract phrases with a lower probability threshold under the `fill` mode, for those documents with empty phrase list from the first step.
 3. use *`manual_add_phrase.py`* to manually add key phrases for the documents still without any key phrases by now.
 4. use *`combine_t_a_k.py`* to combine the extracted phrases with the corresponding titles and abstracts.
+
+Note that an error may occur when running *`wiki_miner.py`* due to the instability of the server. The script will save the extracted phrases if an error occurs. Just run the command again to extract the remaining papers. If there is keyboard interrupt, the extracted phrases will also be saved.
 
 ### A running example:
 1. run 
