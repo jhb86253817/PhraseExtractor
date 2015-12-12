@@ -1,26 +1,42 @@
-## A key phrase extractor based on wiki miner.
+## A key phrase extractor based on wikipedia miner.
 
-Tested on 78129 arxiv computer science papers.
+Tested under python 2.7.6, no extra libraries needed.
 
-Input of the extractor:
+The server we use is the wikify service under [wikipedia miner](http://wikipedia-miner.cms.waikato.ac.nz/services/). Because the phrase extraction algorithm of wikipedia miner is able to process each document separately, we send a http request for each paper sequentially. Please see the [paper](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.178.2266&rep=rep1&type=pdf) for more details.
 
-    arxiv_cs.xml
+### Data:
+ - data/arxiv_cs_xml/arxiv_cs.xml: original XML file of 78129 arxiv computer science papers.
+ - data/arxiv_cs_json/arxiv_cs.json: extracted contents from the XML file by the script xml_parsing.py.
+ - data/arxiv_cs_json_1000/arxiv_cs_1000.json: first 1000 papers of the whole data, for testing
 
-Output of the extractor:
+### Scripts:
+ - xml_parsing.py
+ - wiki_miner.py
+ - manual_add_phrase.py
+ - combine_t_a_k.py
 
-    arxiv_cs_t_a_k.json
+### General pipline:
+1. use **'wiki_miner.py'** to extract phrases with a specific probability threshold under the 'common' mode.
+2. use **'wiki_miner.py'** to extract phrases with a lower probability threshold under the 'fill' mode, for those documents with empty phrase list from the first step.
+3. use **'manual_add_phrase.py'** to manually add key phrases for the documents still without any key phrases by now.
+4. use **'combine_t_a_k.py'** to combine the extracted phrases with the corresponding titles and abstracts.
 
+### An running example:
+1. run 
 
-### Usage:
-1. run **xml_parsing.py**, which takes as input **arxiv_cs.xml**, and outputs **arxiv_cs.json**
-2. run **wiki_miner.py**, which takes as input **arxiv_cs.json**, and outputs folder **topics**
-3. run **combine_topics.py**, which takes as input the folder **topics**, and outputs **arxiv_cs_keywords.json**
-4. run **check_empty.py**, which takes as input **arxiv_cs_keywords.json**, and outputs **arxiv_cs_keywords2.json**
-5. run **combine_t_a_k.py**, which takes as input **arxiv_cs.json** and **arxiv_cs_keywords2.json**, and outputs **arxiv_cs_t_a_k.json**
+    python wiki_miner.py data/arxiv_cs_json/arxiv_cs common 0.5
 
-### To do list:
-- Clarify the server we use, and give its web page.
-- Clarify that the papers should be processed in chunks because of the instability of the sever.
-- Clarify the extraction of each paper is independent of others.
-- Clarify more details how we get the final key phrases. 
-- Add Joel as collaborator.
+2. run
+
+    python wiki_miner.py data/arxiv_cs_json/arxiv_cs fill 0
+
+3. run
+
+    python manual_add_phrase.py data/arxiv_cs_json/arxiv_cs
+
+4. run
+
+    python combine_t_a_k.py data/arxiv_cs_json/arxiv_cs
+
+Finally, the target file will be generated as data/arxiv_cs_json/arxiv_cs_t_a_k.json, containing title, abstract and extracted key pharses of the papers.
+
